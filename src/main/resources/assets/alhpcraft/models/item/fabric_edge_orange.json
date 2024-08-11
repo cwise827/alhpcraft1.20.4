@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "alhpcraft:item/fabric_edge_orange"
+  }
+}

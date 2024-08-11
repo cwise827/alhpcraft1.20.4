@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=south": { "model": "alhpcraft:block/derp_block" },
+    "facing=west" : { "model": "alhpcraft:block/derp_block", "y": 90 },
+    "facing=north": { "model": "alhpcraft:block/derp_block", "y": 180 },
+    "facing=east" : { "model": "alhpcraft:block/derp_block", "y": 270 }
+  }
+}

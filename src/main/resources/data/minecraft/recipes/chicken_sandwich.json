@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    " C ",
+    " B "
+  ],
+  "key": {
+	"B": { "item": "minecraft:bread" },
+	"C": { "item": "minecraft:cooked_chicken" }
+  },
+  "result": {
+    "item": "alhpcraft:chicken_sandwich",
+    "count": 4
+  }
+}

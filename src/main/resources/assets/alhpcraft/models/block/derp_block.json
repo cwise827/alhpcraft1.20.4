@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "particle": "alhpcraft:block/derp_block_side",
+	"front": "alhpcraft:block/derp_block_front",
+    "side": "alhpcraft:block/derp_block_side",
+    "top": "alhpcraft:block/derp_block_top"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "corrupted_derp_ambient": {
+    "sounds": [
+      {
+        "name": "alhpcraft:corrupted_derp_ambient_1",
+		"volume": 1.0,
+		"range": 8.0
+      }
+    ]
+  },
+  "corrupted_derp_hurt": {
+    "sounds": [
+		{
+	        "name": "alhpcraft:corrupted_derp_hurt_1",
+			"volume": 1.0,
+			"range": 8.0
+	      },
+	      {
+	        "name": "alhpcraft:corrupted_derp_hurt_2",
+			"volume": 1.0,
+			"range": 8.0
+	      }
+    ]
+  },
+  "corrupted_derp_death": {
+    "sounds": [
+      {
+        "name": "alhpcraft:corrupted_derp_death",
+		"volume": 0.3,
+		"range": 8.0
+      }
+    ]
+  },
+  "dr_pepper_drink": {
+      "sounds": [
+        {
+		"name": "alhpcraft:dr_pepper_drink"
+		}
+      ]
+    },
+	"burp": {
+      "sounds": [
+        {
+		"name": "alhpcraft:burp"
+		}
+      ]
+    },
+	"derp_ambient": {
+	      "sounds": [
+	        {
+			"name": "alhpcraft:derp_ambient_1",
+			"volume": 0.3,
+			"range": 8.0
+			}
+	      ]
+	    },
+	"derp_hurt": {
+	      "sounds": [
+	        {
+			"name": "alhpcraft:derp_hurt_1",
+			"volume": 0.3,
+			"range": 8.0
+			},
+			{
+			"name": "alhpcraft:derp_hurt_2",
+			"volume": 0.3,
+			"range": 8.0
+			}
+	      ]
+	    },
+	"derp_death": {
+	      "sounds": [
+	        {
+			"name": "alhpcraft:derp_death",
+			"volume": 0.3,
+			"range": 8.0
+			}
+	      ]
+	    },
+	"corrupted_derp_conversion": {
+		      "sounds": [
+		        {
+				"name": "alhpcraft:corrupted_derp_conversion",
+				"volume": 1.0,
+				"range": 12.0
+				}
+		      ]
+		    }
+		
+}

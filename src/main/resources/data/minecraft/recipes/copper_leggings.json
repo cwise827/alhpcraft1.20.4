@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "alhpcraft:derp_ingot"
+    }
+  },
+  "result": {
+    "item": "alhpcraft:derp_leggings",
+    "count": 1
+  }
+}

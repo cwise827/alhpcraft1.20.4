@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:entity",
+	  "pools": [
+		{
+		      "bonus_rolls": 0.0,
+		      "conditions": [
+		        {
+		          "condition": "minecraft:killed_by_player"
+		        },
+		        {
+		          "chance": 0.20,
+		          "condition": "minecraft:random_chance_with_looting",
+		          "looting_multiplier": 0.1
+		        }
+		      ],
+		      "entries": [
+		        {
+		          "type": "minecraft:item",
+		          "name": "alhpcraft:derp_shard"
+		        }
+		      ],
+		      "rolls": 1.0
+		    }
+	]
+}

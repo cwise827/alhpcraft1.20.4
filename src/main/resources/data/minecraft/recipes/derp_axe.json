@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "XS ",
+    "XX "
+  ],
+  "key": {
+    "X": {
+      "item": "alhpcraft:derp_ingot"
+    },
+	"S": {
+	  "item": "minecraft:stick"
+	}
+  },
+  "result": {
+    "item": "alhpcraft:derp_axe",
+    "count": 1
+  }
+}

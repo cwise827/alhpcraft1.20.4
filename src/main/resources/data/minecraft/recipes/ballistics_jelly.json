@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+      {
+        "item": "minecraft:slime_ball"
+      },
+      {
+        "item": "minecraft:yellow_dye"
+      }
+    ],
+  "result": {
+    "item": "alhpcraft:ballistics_jelly",
+    "count": 1
+  }
+}
