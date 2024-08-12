@@ -1,5 +1,6 @@
 package com.github.cwise827.alhpcraft;
 
+import com.github.cwise827.alhpcraft.core.events.CompostRegistration;
 import com.github.cwise827.alhpcraft.core.events.CreativeTabsRegistration;
 import com.github.cwise827.alhpcraft.core.init.BlockInit;
 import com.github.cwise827.alhpcraft.core.init.ItemInit;
@@ -37,6 +38,7 @@ public class AlhpCraft
         ParticleInit.PARTICLE_TYPES.register(modEventBus);
         CreativeTabsRegistration.CREATIVE_MODE_TABS.register(modEventBus);
         ModSounds.SOUND_EVENTS.register(modEventBus);
+        
         NeoForge.EVENT_BUS.register(this);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -46,12 +48,7 @@ public class AlhpCraft
     {
     	// Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
-
+        event.enqueueWork(() -> CompostRegistration.register());
     }
 
     

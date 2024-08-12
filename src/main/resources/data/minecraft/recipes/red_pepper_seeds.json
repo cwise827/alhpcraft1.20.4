@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+      {
+        "item": "alhpcraft:red_pepper"
+      }
+    ],
+  "result": {
+    "item": "alhpcraft:red_pepper_seeds",
+    "count": 3
+  }
+}

@@ -16,6 +16,7 @@ import com.github.cwise827.alhpcraft.item.DerpShovel;
 import com.github.cwise827.alhpcraft.item.DerpSword;
 import com.github.cwise827.alhpcraft.item.DrPepper;
 import com.github.cwise827.alhpcraft.item.Knife;
+import com.github.cwise827.alhpcraft.item.FoodSeedItem;
 
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.entity.EntityType;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -47,6 +49,9 @@ public class ItemInit {
     public static final DeferredItem<Item> DERP_SHARD = ITEMS.registerSimpleItem("derp_shard");
     public static final DeferredItem<Item> DERP_INGOT = ITEMS.registerSimpleItem("derp_ingot");
     public static final DeferredItem<Item> BALLISTICS_JELLY = ITEMS.registerSimpleItem("ballistics_jelly");
+    
+    //Food seeds
+    public static DeferredItem<Item> RED_PEPPER_SEEDS = ITEMS.register("red_pepper_seeds", () -> new FoodSeedItem((Block)BlockInit.RED_PEPPER_CROP_BLOCK.get(), new Item.Properties()));
     
     //Tools and weapons
     public static final DeferredItem<Item> KNIFE = ITEMS.register("knife", () -> new Knife(Tiers.IRON, new Item.Properties().stacksTo(1).rarity(Rarity.COMMON)));

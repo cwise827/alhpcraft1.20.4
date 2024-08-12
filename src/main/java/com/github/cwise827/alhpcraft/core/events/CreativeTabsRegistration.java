@@ -50,10 +50,13 @@ public class CreativeTabsRegistration {
             	output.accept(ItemInit.DERP_BLOCK_ITEM.get());
             	output.accept(ItemInit.CORRUPTED_DERP_SPAWN_EGG.get());
             	output.accept(ItemInit.DERP_SPAWN_EGG.get());
+            	output.accept(ItemInit.JELLY_SLIME_SPAWN_EGG.get());
+                output.accept(ItemInit.JELLY_CUBE_SPAWN_EGG.get());
             	output.accept(ItemInit.CHICKEN_SANDWICH.get());
             	output.accept(ItemInit.SPICY_CHICKEN_SANDWICH.get());
                 output.accept(ItemInit.WAFFLE_FRIES.get());
                 output.accept(ItemInit.RED_PEPPER.get());
+                output.accept(ItemInit.RED_PEPPER_SEEDS.get());
                 output.accept(ItemInit.DR_PEPPER.get());
                 output.accept(ItemInit.FABRIC_EDGE_BLACK.get());
                 output.accept(ItemInit.FABRIC_EDGE_BLUE.get());
@@ -71,8 +74,7 @@ public class CreativeTabsRegistration {
                 output.accept(ItemInit.FABRIC_EDGE_RED.get());
                 output.accept(ItemInit.FABRIC_EDGE_WHITE.get());
                 output.accept(ItemInit.FABRIC_EDGE_YELLOW.get());
-                output.accept(ItemInit.JELLY_SLIME_SPAWN_EGG.get());
-                output.accept(ItemInit.JELLY_CUBE_SPAWN_EGG.get());
+                
             }).build());
 	@SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event)
@@ -84,6 +86,7 @@ public class CreativeTabsRegistration {
         	event.accept(ItemInit.SPICY_CHICKEN_SANDWICH);
         	event.accept(ItemInit.WAFFLE_FRIES);
         	event.accept(ItemInit.RED_PEPPER);
+        	event.accept(ItemInit.RED_PEPPER_SEEDS);
         	event.accept(ItemInit.DR_PEPPER.get());
         }
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {

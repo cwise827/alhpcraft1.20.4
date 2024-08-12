@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:any_of",
+                  "terms": [
+                    {
+                      "condition": "minecraft:match_tool",
+                      "predicate": {
+                        "items": [
+                          "alhpcraft:knife"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ],
+              "name": "alhpcraft:fabric_edge_magenta"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                }
+                
+              ],
+              "name": "minecraft:magenta_carpet"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }   
+  ],
+  "random_sequence": "minecraft:blocks/magenta_carpet"
+}
