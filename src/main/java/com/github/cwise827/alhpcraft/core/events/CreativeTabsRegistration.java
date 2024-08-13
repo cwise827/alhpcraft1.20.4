@@ -44,6 +44,7 @@ public class CreativeTabsRegistration {
             	output.accept(ItemInit.BALLISTICS_JELLY_CHESTPLATE.get());
             	output.accept(ItemInit.BALLISTICS_JELLY_HELMET.get());
             	output.accept(ItemInit.BALLISTICS_JELLY.get());
+            	output.accept(ItemInit.JELLY_CREAM.get());
             	output.accept(ItemInit.KNIFE.get());
                 output.accept(ItemInit.DERP_INGOT.get());
                 output.accept(ItemInit.DERP_SHARD.get());
@@ -93,6 +94,7 @@ public class CreativeTabsRegistration {
         	event.accept(ItemInit.DERP_SHARD);
         	event.accept(ItemInit.DERP_INGOT);
         	event.accept(ItemInit.BALLISTICS_JELLY);
+        	event.accept(ItemInit.JELLY_CREAM.get());
         }
         if(event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
         	event.accept(ItemInit.CORRUPTED_DERP_SPAWN_EGG.get());

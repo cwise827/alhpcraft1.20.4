@@ -12,11 +12,14 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class BlockInit {
 	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks("alhpcraft");
+	
+	
 	public static final DeferredBlock<Block> DERP_BLOCK = BLOCKS.register("derp_block", () -> new DerpBlock(BlockBehaviour.Properties.of()
     		.mapColor(MapColor.COLOR_GREEN)
     		.destroyTime(2.5f)
     		.explosionResistance(9.0f)
     		.requiresCorrectToolForDrops()));
+
 	
 	public static final DeferredBlock<Block> RED_PEPPER_CROP_BLOCK = BLOCKS.register("red_pepper_crop_block", () -> new AlhpCropBlock(BlockBehaviour.Properties.ofFullCopy((BlockBehaviour)Blocks.WHEAT)));
 }

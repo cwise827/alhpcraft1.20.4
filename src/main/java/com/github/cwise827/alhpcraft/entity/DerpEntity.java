@@ -39,22 +39,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 public class DerpEntity extends Animal {
 	
 	private static final Set<Item> BREEDING_ITEMS = Set.of(
-		    ItemInit.FABRIC_EDGE_RED.get(),
-		    ItemInit.FABRIC_EDGE_BLUE.get(),
-		    ItemInit.FABRIC_EDGE_GREEN.get(),
-		    ItemInit.FABRIC_EDGE_YELLOW.get(),
-		    ItemInit.FABRIC_EDGE_ORANGE.get(),
-		    ItemInit.FABRIC_EDGE_PURPLE.get(),
-		    ItemInit.FABRIC_EDGE_PINK.get(),
-		    ItemInit.FABRIC_EDGE_BLACK.get(),
-		    ItemInit.FABRIC_EDGE_WHITE.get(),
-		    ItemInit.FABRIC_EDGE_GRAY.get(),
-		    ItemInit.FABRIC_EDGE_LIGHT_GRAY.get(),
-		    ItemInit.FABRIC_EDGE_CYAN.get(),
-		    ItemInit.FABRIC_EDGE_LIGHT_BLUE.get(),
-		    ItemInit.FABRIC_EDGE_LIME.get(),
-		    ItemInit.FABRIC_EDGE_MAGENTA.get(),
-		    ItemInit.FABRIC_EDGE_BROWN.get()
+		    ItemInit.CHICKEN_SANDWICH.get(),
+		    ItemInit.SPICY_CHICKEN_SANDWICH.get()
 		);
 	
 	public DerpEntity(EntityType<? extends Animal> type, Level level) {

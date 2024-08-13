@@ -4,7 +4,7 @@ import net.minecraft.world.item.Item;
 
 public class FabricEdge extends Item{
 
-	public FabricEdge() {
-		super(new Item.Properties());
+	public FabricEdge(Item.Properties properties) {
+		super(properties);
 	}
 }

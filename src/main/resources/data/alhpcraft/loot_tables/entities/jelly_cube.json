@@ -50,7 +50,7 @@
               "function": "minecraft:looting_enchant"
             }
           ],
-          "name": "alhpcraft:ballistics_jelly"
+          "name": "alhpcraft:jelly_cream"
         },
         {
           "type": "minecraft:item",
@@ -131,5 +131,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "alhpcraft:entities/jelly_cube"
+  "random_sequence": "alhpcraft:entities/jelly_cream"
 }

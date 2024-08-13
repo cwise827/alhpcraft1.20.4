@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+      {
+        "item": "alhpcraft:ballistics_jelly"
+      },
+      {
+        "item": "minecraft:blaze_powder"
+      }
+    ],
+  "result": {
+    "item": "alhpcraft:jelly_cream",
+    "count": 1
+  }
+}

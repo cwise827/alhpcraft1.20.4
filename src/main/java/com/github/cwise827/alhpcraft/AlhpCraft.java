@@ -2,6 +2,9 @@ package com.github.cwise827.alhpcraft;
 
 import com.github.cwise827.alhpcraft.core.events.CompostRegistration;
 import com.github.cwise827.alhpcraft.core.events.CreativeTabsRegistration;
+import com.github.cwise827.alhpcraft.core.events.MenuRegistration;
+import com.github.cwise827.alhpcraft.core.events.ScreenRegistration;
+import com.github.cwise827.alhpcraft.core.init.BlockEntityInit;
 import com.github.cwise827.alhpcraft.core.init.BlockInit;
 import com.github.cwise827.alhpcraft.core.init.ItemInit;
 import com.github.cwise827.alhpcraft.core.init.ParticleInit;
@@ -38,6 +41,8 @@ public class AlhpCraft
         ParticleInit.PARTICLE_TYPES.register(modEventBus);
         CreativeTabsRegistration.CREATIVE_MODE_TABS.register(modEventBus);
         ModSounds.SOUND_EVENTS.register(modEventBus);
+        MenuRegistration.REGISTER.register(modEventBus);
+        BlockEntityInit.BLOCK_ENTITIES.register(modEventBus);
         
         NeoForge.EVENT_BUS.register(this);
 
@@ -68,6 +73,7 @@ public class AlhpCraft
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            ScreenRegistration.registerScreens();
         }
     }
 }

@@ -15,6 +15,7 @@ import com.github.cwise827.alhpcraft.item.DerpPickaxe;
 import com.github.cwise827.alhpcraft.item.DerpShovel;
 import com.github.cwise827.alhpcraft.item.DerpSword;
 import com.github.cwise827.alhpcraft.item.DrPepper;
+import com.github.cwise827.alhpcraft.item.FabricEdge;
 import com.github.cwise827.alhpcraft.item.Knife;
 import com.github.cwise827.alhpcraft.item.FoodSeedItem;
 
@@ -49,6 +50,7 @@ public class ItemInit {
     public static final DeferredItem<Item> DERP_SHARD = ITEMS.registerSimpleItem("derp_shard");
     public static final DeferredItem<Item> DERP_INGOT = ITEMS.registerSimpleItem("derp_ingot");
     public static final DeferredItem<Item> BALLISTICS_JELLY = ITEMS.registerSimpleItem("ballistics_jelly");
+    public static final DeferredItem<Item> JELLY_CREAM = ITEMS.registerSimpleItem("jelly_cream");
     
     //Food seeds
     public static DeferredItem<Item> RED_PEPPER_SEEDS = ITEMS.register("red_pepper_seeds", () -> new FoodSeedItem((Block)BlockInit.RED_PEPPER_CROP_BLOCK.get(), new Item.Properties()));
@@ -88,20 +90,20 @@ public class ItemInit {
     
     
     //Fabric edges
-    public static final DeferredItem<Item> FABRIC_EDGE_BLACK = ITEMS.registerSimpleItem("fabric_edge_black");
-    public static final DeferredItem<Item> FABRIC_EDGE_BLUE = ITEMS.registerSimpleItem("fabric_edge_blue");
-    public static final DeferredItem<Item> FABRIC_EDGE_BROWN = ITEMS.registerSimpleItem("fabric_edge_brown");
-    public static final DeferredItem<Item> FABRIC_EDGE_CYAN = ITEMS.registerSimpleItem("fabric_edge_cyan");
-    public static final DeferredItem<Item> FABRIC_EDGE_GRAY = ITEMS.registerSimpleItem("fabric_edge_gray");
-    public static final DeferredItem<Item> FABRIC_EDGE_GREEN = ITEMS.registerSimpleItem("fabric_edge_green");
-    public static final DeferredItem<Item> FABRIC_EDGE_LIGHT_BLUE = ITEMS.registerSimpleItem("fabric_edge_light_blue");
-    public static final DeferredItem<Item> FABRIC_EDGE_LIGHT_GRAY = ITEMS.registerSimpleItem("fabric_edge_light_gray");
-    public static final DeferredItem<Item> FABRIC_EDGE_LIME = ITEMS.registerSimpleItem("fabric_edge_lime");
-    public static final DeferredItem<Item> FABRIC_EDGE_MAGENTA = ITEMS.registerSimpleItem("fabric_edge_magenta");
-    public static final DeferredItem<Item> FABRIC_EDGE_ORANGE = ITEMS.registerSimpleItem("fabric_edge_orange");
-    public static final DeferredItem<Item> FABRIC_EDGE_PINK = ITEMS.registerSimpleItem("fabric_edge_pink");
-    public static final DeferredItem<Item> FABRIC_EDGE_PURPLE = ITEMS.registerSimpleItem("fabric_edge_purple");
-    public static final DeferredItem<Item> FABRIC_EDGE_RED = ITEMS.registerSimpleItem("fabric_edge_red");
-    public static final DeferredItem<Item> FABRIC_EDGE_WHITE = ITEMS.registerSimpleItem("fabric_edge_white");
-    public static final DeferredItem<Item> FABRIC_EDGE_YELLOW = ITEMS.registerSimpleItem("fabric_edge_yellow");
+    public static final DeferredItem<Item> FABRIC_EDGE_BLACK = ITEMS.register("fabric_edge_black", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_BLUE = ITEMS.register("fabric_edge_blue", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_BROWN = ITEMS.register("fabric_edge_brown", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_CYAN = ITEMS.register("fabric_edge_cyan", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_GRAY = ITEMS.register("fabric_edge_gray", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_GREEN = ITEMS.register("fabric_edge_green", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_LIGHT_BLUE = ITEMS.register("fabric_edge_light_blue", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_LIGHT_GRAY = ITEMS.register("fabric_edge_light_gray", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_LIME = ITEMS.register("fabric_edge_lime", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_MAGENTA = ITEMS.register("fabric_edge_magenta", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_ORANGE = ITEMS.register("fabric_edge_orange", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_PINK = ITEMS.register("fabric_edge_pink", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_PURPLE = ITEMS.register("fabric_edge_purple", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_RED = ITEMS.register("fabric_edge_red", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_WHITE = ITEMS.register("fabric_edge_white", () -> new FabricEdge(new Item.Properties()));
+    public static final DeferredItem<Item> FABRIC_EDGE_YELLOW = ITEMS.register("fabric_edge_yellow", () -> new FabricEdge(new Item.Properties()));
 }
