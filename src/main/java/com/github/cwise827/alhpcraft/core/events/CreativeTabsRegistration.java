@@ -49,6 +49,7 @@ public class CreativeTabsRegistration {
                 output.accept(ItemInit.DERP_INGOT.get());
                 output.accept(ItemInit.DERP_SHARD.get());
             	output.accept(ItemInit.DERP_BLOCK_ITEM.get());
+            	output.accept(ItemInit.BALLISTICS_JELLY_BLOCK_ITEM.get());
             	output.accept(ItemInit.CORRUPTED_DERP_SPAWN_EGG.get());
             	output.accept(ItemInit.DERP_SPAWN_EGG.get());
             	output.accept(ItemInit.JELLY_SLIME_SPAWN_EGG.get());
@@ -80,8 +81,10 @@ public class CreativeTabsRegistration {
 	@SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(ItemInit.DERP_BLOCK_ITEM);
+        	event.accept(ItemInit.BALLISTICS_JELLY_BLOCK_ITEM.get());
+        }
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
         	event.accept(ItemInit.CHICKEN_SANDWICH);
         	event.accept(ItemInit.SPICY_CHICKEN_SANDWICH);

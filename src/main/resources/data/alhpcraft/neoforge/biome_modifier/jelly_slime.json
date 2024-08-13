@@ -1,0 +1,15 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": {
+    "type": "neoforge:and",
+    "values": [
+      "minecraft:plains"
+    ]
+  },
+  "spawners": {
+    "type": "alhpcraft:jelly_slime",
+    "weight": 2,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

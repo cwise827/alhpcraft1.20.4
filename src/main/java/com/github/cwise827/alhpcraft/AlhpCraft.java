@@ -12,6 +12,8 @@ import com.github.cwise827.alhpcraft.core.init.EntityInit;
 import com.github.cwise827.alhpcraft.sounds.ModSounds;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
@@ -70,7 +72,9 @@ public class AlhpCraft
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-            // Some client setup code
+            
+        	ItemBlockRenderTypes.setRenderLayer(BlockInit.BALLISTICS_JELLY_BLOCK.get(), RenderType.translucent());
+        	// Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
             ScreenRegistration.registerScreens();

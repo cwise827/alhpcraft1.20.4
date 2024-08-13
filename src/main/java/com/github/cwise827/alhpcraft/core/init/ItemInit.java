@@ -38,6 +38,7 @@ public class ItemInit {
 	
 	//Block items
 	public static final DeferredItem<BlockItem> DERP_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("derp_block", BlockInit.DERP_BLOCK);
+	public static final DeferredItem<BlockItem> BALLISTICS_JELLY_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("ballistics_jelly_block", BlockInit.BALLISTICS_JELLY_BLOCK);
 	
 	//Food items
     public static final DeferredItem<Item> SPICY_CHICKEN_SANDWICH = ITEMS.registerSimpleItem("spicy_chicken_sandwich", new Item.Properties().food(new FoodProperties.Builder().nutrition(7).saturationMod(2f).build()));

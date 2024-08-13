@@ -1,0 +1,22 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": {
+    "type": "neoforge:and",
+    "values": [
+      "#minecraft:is_nether",
+      {
+        "type": "neoforge:not",
+        "value": [
+          "minecraft:crimson_forest",
+          "minecraft:warped_forest"
+        ]
+      }
+    ]
+  },
+  "spawners": {
+    "type": "alhpcraft:jelly_cube",
+    "weight": 2,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}
