@@ -1,5 +1,7 @@
 package com.github.cwise827.alhpcraft;
 
+import com.github.cwise827.alhpcraft.block.DerpBlockEntity;
+import com.github.cwise827.alhpcraft.core.events.CapabilitiesRegistration;
 import com.github.cwise827.alhpcraft.core.events.CompostRegistration;
 import com.github.cwise827.alhpcraft.core.events.CreativeTabsRegistration;
 import com.github.cwise827.alhpcraft.core.events.MenuRegistration;
@@ -24,8 +26,12 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.items.IItemHandler;
+
 import org.slf4j.Logger;
 
 @Mod(AlhpCraft.MODID)
@@ -37,6 +43,7 @@ public class AlhpCraft
     public AlhpCraft(IEventBus modEventBus)
     {
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::registerCapabilities);
         BlockInit.BLOCKS.register(modEventBus);
         ItemInit.ITEMS.register(modEventBus);
         EntityInit.ENTITIES.register(modEventBus);
@@ -57,7 +64,18 @@ public class AlhpCraft
         LOGGER.info("HELLO FROM COMMON SETUP");
         event.enqueueWork(() -> CompostRegistration.register());
     }
-
+    
+    private void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+            Capabilities.ItemHandler.BLOCK,
+            BlockEntityInit.DERP_BLOCK_ENTITY.get(),
+            (be, side) -> {
+                if (be instanceof DerpBlockEntity) {
+                    return (IItemHandler) be;
+                }
+                return null;
+            });
+    }
     
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
@@ -74,6 +92,7 @@ public class AlhpCraft
         {
             
         	ItemBlockRenderTypes.setRenderLayer(BlockInit.BALLISTICS_JELLY_BLOCK.get(), RenderType.translucent());
+        	ItemBlockRenderTypes.setRenderLayer(BlockInit.COMPACT_BALLISTICS_JELLY_BLOCK.get(), RenderType.translucent());
         	// Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());

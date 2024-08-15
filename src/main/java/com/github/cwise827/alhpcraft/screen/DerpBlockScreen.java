@@ -2,7 +2,6 @@ package com.github.cwise827.alhpcraft.screen;
 
 import com.github.cwise827.alhpcraft.menu.DerpBlockMenu;
 
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -10,13 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 
-
 public class DerpBlockScreen extends AbstractContainerScreen<DerpBlockMenu> {
     
 	private static final ResourceLocation BACKGROUND_TEXTURE_LOCATION = new ResourceLocation("alhpcraft", "textures/gui/container/derp_block_gui.png");
+
 	
 	public DerpBlockScreen(DerpBlockMenu menu, Inventory inv, Component title) {
-        super(menu, inv, title);
+		super(menu, inv, title);
     }
 
     @Override
@@ -29,7 +28,6 @@ public class DerpBlockScreen extends AbstractContainerScreen<DerpBlockMenu> {
     
     @Override
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-        
     	
     }
     

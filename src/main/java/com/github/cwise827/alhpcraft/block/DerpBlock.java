@@ -18,6 +18,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -31,6 +32,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class DerpBlock extends BaseEntityBlock{
 	
@@ -83,11 +86,31 @@ public class DerpBlock extends BaseEntityBlock{
         return null;
     }
     
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+      return type == BlockEntityInit.DERP_BLOCK_ENTITY.get() ? DerpBlockEntity::tick : null;
+    }
+    
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        Containers.dropContentsOnDestroy(pState, pNewState, pLevel, pPos);
+    	if (!pLevel.isClientSide) {
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+            if (blockEntity instanceof DerpBlockEntity) {
+                DerpBlockEntity derpBlockEntity = (DerpBlockEntity) blockEntity;
+                IItemHandler itemHandler = derpBlockEntity.getItemHandler(); // Ensure you have a method to get the item handler
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+                    ItemStack stack = itemHandler.getStackInSlot(i);
+                    if (!stack.isEmpty()) {
+                        // Drop the items
+                        Block.popResource(pLevel, pPos, stack);
+                    }
+                }
+            }
+        }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
+
 
 	@Override
 	protected MapCodec<? extends BaseEntityBlock> codec() {

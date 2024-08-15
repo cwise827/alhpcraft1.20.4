@@ -13,31 +13,61 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 
 public class DerpBlockMenu extends AbstractContainerMenu {
-    private static ContainerLevelAccess access;
+    public static ContainerLevelAccess access;
     private final DerpBlockMenu.PaymentSlot paymentSlot;
     private static final Logger LOGGER = LogUtils.getLogger();
     
     private final Container derpBlock = new SimpleContainer(1) {
         @Override
         public boolean canPlaceItem(int index, ItemStack item) {
-            return item.getItem() instanceof FabricEdge;
+        	return item.getItem() instanceof FabricEdge;
+        }
+        
+        @Override
+        public void fillStackedContents(StackedContents helper) {
+        	if (this instanceof StackedContentsCompatible) {
+                ((StackedContentsCompatible)this).fillStackedContents(helper);
+                LOGGER.debug("YES");
+            }else {
+            	LOGGER.debug("NO");
+            }
         }
 
         @Override
         public int getMaxStackSize() {
-            return 1;
+            return 64;
         }
-        
+        @Override
+        public ItemStack removeItem(int index, int count) {
+            // Remove items from the container and notify changes
+            ItemStack itemstack = super.removeItem(index, count);
+            this.setChanged();
+            return itemstack;
+        }
+        @Override
+        public ItemStack getItem(int index) {
+            // Retrieve items from the container
+            return super.getItem(index);
+        }
+        @Override
+        public void setItem(int index, ItemStack stack) {
+            // Set items in the container and notify changes
+            super.setItem(index, stack);
+            this.setChanged();
+        }
     };
 
     public DerpBlockMenu(int containerId, Inventory playerInventory) {
@@ -64,7 +94,6 @@ public class DerpBlockMenu extends AbstractContainerMenu {
         	this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
-
     
     @Override
     public boolean stillValid(Player player) {
@@ -85,46 +114,37 @@ public class DerpBlockMenu extends AbstractContainerMenu {
             int hotbarStart = this.slots.size() - 9; // The hotbar is the last 9 slots
             int playerInventoryEnd = this.slots.size();
 
-            // If the clicked slot is your single custom slot
+            // Handle moving items from the custom slot to the player's inventory
             if (index == slotIndex) {
-            	// Move item from your single slot to player's inventory
+                // Move item from your single slot to player's inventory
                 if (!this.moveItemStackTo(stackInSlot, playerInventoryStart, playerInventoryEnd, true)) {
-                	return ItemStack.EMPTY;
+                    return ItemStack.EMPTY;
                 }
-                slot.setChanged();
             } else {
-            	// The clicked slot is in the player inventory or hotbar
-                boolean moved = false;
-                // Try to move to the custom slot if it's empty
-                if (this.slots.get(slotIndex).getItem().isEmpty()) {
-                    if (this.moveItemStackTo(stackInSlot, slotIndex, slotIndex + 1, false)) {
-                        moved = true;
+                // Handle moving items from player's inventory to the custom slot
+                if (index >= playerInventoryStart && index < playerInventoryEnd) {
+                    // Player inventory slot, try to move item to custom slot
+                    if (!this.moveItemStackTo(stackInSlot, slotIndex, slotIndex + 1, false)) {
+                        return ItemStack.EMPTY;
                     }
-                }
-                // If not moved, move between inventory and hotbar
-                if (!moved) {
-                    if (index >= playerInventoryStart && index < hotbarStart) {
-                        // Move from main inventory to hotbar
-                        if (!this.moveItemStackTo(stackInSlot, hotbarStart, playerInventoryEnd, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    } else if (index >= hotbarStart && index < playerInventoryEnd) {
-                        // Move from hotbar to main inventory
-                        if (!this.moveItemStackTo(stackInSlot, playerInventoryStart, hotbarStart, false)) {
-                            return ItemStack.EMPTY;
-                        }
+                } else if (index >= hotbarStart && index < playerInventoryEnd) {
+                    // Hotbar slot, move item to custom slot
+                    if (!this.moveItemStackTo(stackInSlot, slotIndex, slotIndex + 1, false)) {
+                        return ItemStack.EMPTY;
                     }
                 }
             }
 
+            // If the stack in the slot is empty, clear the slot
             if (stackInSlot.isEmpty()) {
-            	slot.set(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-            	slot.setChanged();
+                slot.setChanged();
             }
 
+            // If the itemstack has not changed, return empty
             if (stackInSlot.getCount() == itemstack.getCount()) {
-            	return ItemStack.EMPTY;
+                return ItemStack.EMPTY;
             }
 
             slot.onTake(player, stackInSlot);
@@ -145,7 +165,6 @@ public class DerpBlockMenu extends AbstractContainerMenu {
                 // Save the item to the block entity
                 if (world.getBlockEntity(pos) instanceof DerpBlockEntity blockEntity) {
                 	blockEntity.syncWithMenu(this.paymentSlot.getItem());
-                    LOGGER.debug("The item is " + this.paymentSlot.getItem().toString());
                 }
             });
         }
@@ -166,6 +185,7 @@ public class DerpBlockMenu extends AbstractContainerMenu {
             });
         }
     }
+
     
     class PaymentSlot extends Slot {
         public PaymentSlot(Container pContainer, int pContainerIndex, int pXPosition, int pYPosition) {
@@ -174,12 +194,25 @@ public class DerpBlockMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack pStack) {
-            return pStack.getItem() instanceof FabricEdge;
+        	return pStack.getItem() instanceof FabricEdge;
         }
 
         @Override
         public int getMaxStackSize() {
-            return 1;
+            return 64;
+        }
+
+        
+        @Override
+        public boolean mayPickup(Player playerIn) {
+        	return !this.getItem().isEmpty() && this.container.stillValid(playerIn);
+        }
+        
+        @Override
+        public void onTake(Player player, ItemStack stack) {
+            super.onTake(player, stack);
+            // Custom logic for when an item is taken from this slot
+            // For example, update the block entity or perform additional actions
         }
         
         @Override

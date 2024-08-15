@@ -6,34 +6,35 @@ import org.slf4j.Logger;
 
 import com.github.cwise827.alhpcraft.core.init.BlockEntityInit;
 import com.github.cwise827.alhpcraft.core.init.ItemInit;
+import com.github.cwise827.alhpcraft.item.FabricEdge;
 import com.mojang.logging.LogUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.Containers;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
-public class DerpBlockEntity extends BlockEntity{
+public class DerpBlockEntity extends BlockEntity implements IItemHandler{
 	
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
-    private static final long DISPENSE_DELAY = 600L;
-    private long lastItemSetTime = -1;
-    private static final Logger LOGGER = LogUtils.getLogger();
     private final Random random = new Random();
     private ItemStack randomItem;
     private int randomArrayInt, randomInt;
     private static final int DELAY_TICKS = 200; // 10 seconds
-    private int timer = 0;
+    private int timer;
+    private static final Logger LOGGER = LogUtils.getLogger();
     
     Item junkBlocks[] = {Items.COBBLESTONE, Items.DIRT, Items.GRANITE, Items.ANDESITE, Items.DIORITE};
     Item nuggetArray[] = {Items.GOLD_NUGGET, Items.IRON_NUGGET, Items.IRON_INGOT, Items.GOLD_INGOT, Items.COPPER_INGOT};
@@ -53,26 +54,55 @@ public class DerpBlockEntity extends BlockEntity{
     };
 
     public DerpBlockEntity(BlockPos pos, BlockState state) {
-        super((BlockEntityType)BlockEntityInit.DERP_BLOCK_ENTITY.get(), pos, state);
-    }
-
-    public void setStoredItem(ItemStack itemStack) {
-    	itemHandler.setStackInSlot(0, itemStack);
-    	this.lastItemSetTime = this.level.getGameTime();
-        setChanged();
-        dispenseRandomItem();
-        
+        super(BlockEntityInit.DERP_BLOCK_ENTITY.get(), pos, state);
+        LOGGER.debug("DerpBlockEntity created at position: {}", pos);
     }
 
     
-    public ItemStackHandler getItemHandler() {
+    public static void tick(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity) {
+        // Check if there is an item in the slot
+    	//LOGGER.debug("ticking"); 
+    	if (blockEntity instanceof DerpBlockEntity) {
+    		//LOGGER.debug("Made it"); 
+    	        DerpBlockEntity derpBlockEntity = (DerpBlockEntity) blockEntity;
+    	        
+    	        // Check if there is an item in the slot
+    	        if (!derpBlockEntity.getItemHandler().getStackInSlot(0).isEmpty()) {
+    	            // Increment the timer
+    	            derpBlockEntity.timer++;
+    	            //LOGGER.debug("Timer is at " + derpBlockEntity.timer);
+    	            // Check if the timer has reached 10 seconds
+    	            if (derpBlockEntity.timer >= DELAY_TICKS) {
+    	                // Dispense the item
+    	                derpBlockEntity.dispenseRandomItem();
+    	                // Reset the timer
+    	                derpBlockEntity.timer = 0;
+    	            }
+    	        } else {
+    	            // Reset the timer if the slot is empty
+    	            derpBlockEntity.timer = 0;
+    	        }
+    	        
+    	 }
+    	
+    	
+    }
+    
+    public void setStoredItem(ItemStack itemStack) {
+    	itemHandler.setStackInSlot(0, itemStack);
+        setChanged(); 
+    }
+    
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
+    
+    
 
     public ItemStack getStoredItem() {
     	return itemHandler.getStackInSlot(0);
     }
-    private void dispenseRandomItem() {
+    public void dispenseRandomItem() {
         randomInt = random.nextInt(1000); // Generates a random number between 0 and 99
 
         if (randomInt >= 0 && randomInt <= 749) {
@@ -105,11 +135,12 @@ public class DerpBlockEntity extends BlockEntity{
         }else {
         	randomItem = new ItemStack(Items.DIRT);
         }
-        LOGGER.debug("Random Int = " + randomInt);
-        LOGGER.debug("Random array int = " + randomArrayInt);
         dispenseItem(); // Dispense the item
     }
-    private void dispenseItem() {
+    
+    
+    
+    public void dispenseItem() {
     	if (!this.itemHandler.getStackInSlot(0).isEmpty()) {
         	BlockPos pos = getBlockPos();
         	BlockState state = getBlockState();
@@ -117,50 +148,105 @@ public class DerpBlockEntity extends BlockEntity{
 
             // Calculate the position in front of the block
             BlockPos frontPos = pos.relative(facing.getOpposite());
-        	
-        	Containers.dropItemStack(this.level, frontPos.getX(), frontPos.getY(), frontPos.getZ(), randomItem);
-            this.itemHandler.setStackInSlot(0, ItemStack.EMPTY); // Clear the item after dispensing
+            ItemEntity itemEntity = new ItemEntity(
+            	    this.level, 
+            	    frontPos.getX() + 0.5, 
+            	    frontPos.getY() + 0.5, 
+            	    frontPos.getZ() + 0.5, 
+            	    randomItem
+            	);
+
+            	// Set minimal motion to reduce scatter
+            	itemEntity.setDeltaMovement(0, 0, 0);
+
+            	this.level.addFreshEntity(itemEntity);
+        	//Containers.dropItemStack(this.level, frontPos.getX() + .5f, frontPos.getY() + .5f, frontPos.getZ() + .5f, randomItem);
+        	this.getLevel().playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), SoundEvents.DISPENSER_DISPENSE, SoundSource.BLOCKS, 1.0f, 1.0f);
+            this.itemHandler.getStackInSlot(0).shrink(1); // Clear the item after dispensing
             this.setChanged(); // Notify the block entity has changed
+        }else {
         }
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, DerpBlockEntity blockEntity) {
-        // Check if there is an item in the slot
-    	if (blockEntity.getItemHandler().getStackInSlot(0).isEmpty()) {
-            // Increment the timer
-            blockEntity.timer++;
-            
-            // Check if the timer has reached 10 seconds
-            if (blockEntity.timer >= DELAY_TICKS) {
-                // Dispense the item
-                blockEntity.dispenseRandomItem();
-                
-                // Reset the timer
-                blockEntity.timer = 0;
-            }
-        } else {
-            // Reset the timer if the slot is empty
-            blockEntity.timer = 0;
-        }
-    }
+    
     
     @Override
     public void load(CompoundTag tag) {
     	super.load(tag);
         CompoundTag inventoryTag = tag.getCompound("Inventory");
+        this.timer = tag.getInt("Timer");
         itemHandler.deserializeNBT(inventoryTag);
-        LOGGER.debug("Loaded Inventory NBT: " + inventoryTag.toString());
+        if (level != null) {
+            level.invalidateCapabilities(getBlockPos());
+        }
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
     	super.saveAdditional(tag);
         CompoundTag inventoryTag = itemHandler.serializeNBT();
+        tag.putInt("Timer", this.timer);
         tag.put("Inventory", inventoryTag);
-        LOGGER.debug("Saved Inventory NBT: " + inventoryTag.toString());
     }
     
     public void syncWithMenu(ItemStack itemStack) {
         setStoredItem(itemStack);
     }
+
+
+	@Override
+	public int getSlots() {
+		return itemHandler.getSlots();
+	}
+
+
+	@Override
+	public ItemStack getStackInSlot(int slot) {
+		return itemHandler.getStackInSlot(slot);
+	}
+
+	@Override
+	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+		LOGGER.debug("Inserting item: {}", stack.getItem().getName(stack).getString());
+	    if (isItemValid(slot, stack)) {
+	        ItemStack result = itemHandler.insertItem(slot, stack, simulate);
+	        LOGGER.debug("Item inserted, remaining: {}", result.getCount());
+	        return result;
+	    } else {
+	        LOGGER.debug("Item is not valid for insertion");
+	        return stack;
+	    }
+	}
+
+
+	@Override
+	public ItemStack extractItem(int slot, int amount, boolean simulate) {
+		return itemHandler.extractItem(slot, amount, simulate);
+	}
+
+
+	@Override
+	public int getSlotLimit(int slot) {
+		if (slot < 0 || slot >= getSlots()) {
+	        return 0; // Invalid slot index
+	    }
+	    // Return the maximum stack size for the given slot
+	    return 64;
+	}
+	
+	@Override
+	public void setRemoved() {
+	    super.setRemoved();
+	    // Invalidate capabilities when the block entity is removed
+	    if (level != null) {
+	        level.invalidateCapabilities(getBlockPos());
+	    }
+	}
+
+
+	@Override
+	public boolean isItemValid(int slot, ItemStack stack) {
+		return stack.getItem() instanceof FabricEdge;
+	}
+
 }
