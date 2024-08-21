@@ -1,0 +1,31 @@
+{   "parent": "block/block",
+    "textures": {
+        "particle": "alhpcraft:block/launchpad",
+        "texture": "alhpcraft:block/launchpad",
+		"texture2": "alhpcraft:block/compact_ballistics_jelly_block"
+    },
+    "elements": [
+        {   "from": [ 1, 1, 1 ],
+            "to": [ 15, 15, 15 ],
+            "faces": {
+                "down":  { "uv": [ 1, 1, 15, 15 ], "texture": "#texture2" },
+                "up":    { "uv": [ 1, 1, 15, 15 ], "texture": "#texture2" },
+                "north": { "uv": [ 1, 1, 15, 15 ], "texture": "#texture2" },
+                "south": { "uv": [ 1, 1, 15, 15 ], "texture": "#texture2" },
+                "west":  { "uv": [ 1, 1, 15, 15 ], "texture": "#texture2" },
+                "east":  { "uv": [ 1, 1, 15, 15 ], "texture": "#texture2" }
+            }
+        },
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "cullface": "east" }
+            }
+        }
+    ]
+}

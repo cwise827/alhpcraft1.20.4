@@ -85,6 +85,47 @@
 				"range": 12.0
 				}
 		      ]
-		    }
-		
+		    },		 
+	 "mrp_man_ambient": {
+  	      "sounds": [
+  	        {
+  			"name": "alhpcraft:mrp_man_ambient_1",
+  			"volume": 1.0,
+  			"range": 12.0
+  			},
+			{
+  			"name": "alhpcraft:mrp_man_ambient_2",
+  			"volume": 1.0,
+  			"range": 12.0
+  			}
+  	      ]
+  	    },
+  	 "mrp_man_hurt": {
+  	      "sounds": [
+  	        {
+  			"name": "alhpcraft:mrp_man_hurt_1",
+  			"volume": 1.0,
+  			"range": 12.0
+  			},
+			{
+  			"name": "alhpcraft:mrp_man_hurt_2",
+  			"volume": 1.0,
+  			"range": 12.0
+  			}
+  	      ]
+  	    },
+  	 "mrp_man_death": {
+  	      "sounds": [
+  	        {
+  			"name": "alhpcraft:mrp_man_death_1",
+  			"volume": 1.0,
+  			"range": 12.0
+  			},
+			{
+  			"name": "alhpcraft:mrp_man_death_2",
+  			"volume": 1.0,
+  			"range": 12.0
+  			}
+  	      ]
+  	    }
 }

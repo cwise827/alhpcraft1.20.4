@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XSX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "alhpcraft:compact_ballistics_jelly_block"
+    },
+	"S": {
+	      "item": "minecraft:piston"
+	    }
+  },
+  "result": {
+    "item": "alhpcraft:launchpad",
+    "count": 1
+  }
+}

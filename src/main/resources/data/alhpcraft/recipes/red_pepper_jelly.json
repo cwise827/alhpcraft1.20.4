@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+      {
+        "item": "alhpcraft:red_pepper"
+      },
+	  {
+        "item": "alhpcraft:jelly_cream"
+      }
+    ],
+  "result": {
+    "item": "alhpcraft:red_pepper_jelly",
+    "count": 1
+  }
+}

@@ -1,7 +1,7 @@
 package com.github.cwise827.alhpcraft;
 
 import com.github.cwise827.alhpcraft.block.DerpBlockEntity;
-import com.github.cwise827.alhpcraft.core.events.CapabilitiesRegistration;
+import com.github.cwise827.alhpcraft.core.events.BrewingRecipeRegistration;
 import com.github.cwise827.alhpcraft.core.events.CompostRegistration;
 import com.github.cwise827.alhpcraft.core.events.CreativeTabsRegistration;
 import com.github.cwise827.alhpcraft.core.events.MenuRegistration;
@@ -9,15 +9,15 @@ import com.github.cwise827.alhpcraft.core.events.ScreenRegistration;
 import com.github.cwise827.alhpcraft.core.init.BlockEntityInit;
 import com.github.cwise827.alhpcraft.core.init.BlockInit;
 import com.github.cwise827.alhpcraft.core.init.ItemInit;
+import com.github.cwise827.alhpcraft.core.init.MobEffectInit;
 import com.github.cwise827.alhpcraft.core.init.ParticleInit;
+import com.github.cwise827.alhpcraft.core.init.PotionInit;
 import com.github.cwise827.alhpcraft.core.init.EntityInit;
 import com.github.cwise827.alhpcraft.sounds.ModSounds;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -52,7 +52,8 @@ public class AlhpCraft
         ModSounds.SOUND_EVENTS.register(modEventBus);
         MenuRegistration.REGISTER.register(modEventBus);
         BlockEntityInit.BLOCK_ENTITIES.register(modEventBus);
-        
+        MobEffectInit.MOB_EFFECTS.register(modEventBus);
+        PotionInit.POTIONS.register(modEventBus);
         NeoForge.EVENT_BUS.register(this);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -63,6 +64,7 @@ public class AlhpCraft
     	// Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
         event.enqueueWork(() -> CompostRegistration.register());
+        new BrewingRecipeRegistration().register(event);
     }
     
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
@@ -93,6 +95,8 @@ public class AlhpCraft
             
         	ItemBlockRenderTypes.setRenderLayer(BlockInit.BALLISTICS_JELLY_BLOCK.get(), RenderType.translucent());
         	ItemBlockRenderTypes.setRenderLayer(BlockInit.COMPACT_BALLISTICS_JELLY_BLOCK.get(), RenderType.translucent());
+        	ItemBlockRenderTypes.setRenderLayer(BlockInit.LAUNCHPAD_BLOCK.get(), RenderType.translucent());
+        	
         	// Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());

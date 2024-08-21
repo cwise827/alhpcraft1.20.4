@@ -14,6 +14,8 @@ import com.github.cwise827.alhpcraft.entity.DerpRenderer;
 import com.github.cwise827.alhpcraft.entity.JellyCubeRenderer;
 import com.github.cwise827.alhpcraft.entity.JellySlimeEntity;
 import com.github.cwise827.alhpcraft.entity.JellySlimeRenderer;
+import com.github.cwise827.alhpcraft.entity.MrpManModel;
+import com.github.cwise827.alhpcraft.entity.MrpManRenderer;
 import com.github.cwise827.alhpcraft.particle.JellySlimeParticle;
 import com.github.cwise827.alhpcraft.particle.JellySlimeParticleProvider;
 import com.github.cwise827.alhpcraft.particle.JellyCubeParticleProvider;
@@ -30,17 +32,20 @@ public class ClientListener {
 
 	public static final ModelLayerLocation CORRUPTED_DERP_LAYER = new ModelLayerLocation(new ResourceLocation((String)"alhpcraft", (String)"corrupted_derp"), "main");
 	public static final ModelLayerLocation DERP_LAYER = new ModelLayerLocation(new ResourceLocation((String)"alhpcraft", (String)"derp"), "main");
+	public static final ModelLayerLocation MRP_MAN_LAYER = new ModelLayerLocation(new ResourceLocation((String)"alhpcraft", (String)"mrp_man"), "main");
 	
 	@SubscribeEvent
 	public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
 	    event.registerLayerDefinition(CORRUPTED_DERP_LAYER, CorruptedDerpModel::createBodyLayer);
 	    event.registerLayerDefinition(DERP_LAYER, DerpModel::createBodyLayer);
+	    event.registerLayerDefinition(MRP_MAN_LAYER, MrpManModel::createBodyLayer);
 	}
 	
 	@SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer((EntityType)EntityInit.CORRUPTED_DERP.get(), CorruptedDerpRenderer::new);
         event.registerEntityRenderer((EntityType)EntityInit.DERP.get(), DerpRenderer::new);
+        event.registerEntityRenderer((EntityType)EntityInit.MRP_MAN.get(), MrpManRenderer::new);
         event.registerEntityRenderer((EntityType)EntityInit.JELLY_SLIME.get(), JellySlimeRenderer::new);
         event.registerEntityRenderer((EntityType)EntityInit.JELLY_CUBE.get(), JellyCubeRenderer::new);
     }

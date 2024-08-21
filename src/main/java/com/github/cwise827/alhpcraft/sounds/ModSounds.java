@@ -48,4 +48,16 @@ public class ModSounds {
             "corrupted_derp_conversion",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation("alhpcraft", "corrupted_derp_conversion"))
     );
+    public static final DeferredHolder<SoundEvent, SoundEvent> MRP_MAN_AMBIENT = SOUND_EVENTS.register(
+            "mrp_man_ambient",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation("alhpcraft", "mrp_man_ambient"))
+    );
+    public static final DeferredHolder<SoundEvent, SoundEvent> MRP_MAN_HURT = SOUND_EVENTS.register(
+            "mrp_man_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation("alhpcraft", "mrp_man_hurt"))
+    );
+    public static final DeferredHolder<SoundEvent, SoundEvent> MRP_MAN_DEATH = SOUND_EVENTS.register(
+            "mrp_man_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation("alhpcraft", "mrp_man_death"))
+    );
  }

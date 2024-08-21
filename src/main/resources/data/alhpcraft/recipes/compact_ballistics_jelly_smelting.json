@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "alhpcraft:ballistics_jelly"
+  },
+  "result": "alhpcraft:ballistics_jelly_concentrate",
+  "experience": 0.02,
+  "cookingtime": 140
+}

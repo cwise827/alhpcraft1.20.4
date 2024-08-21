@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "alhpcraft:ballistics_jelly_sword",
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.05
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "alhpcraft:salt",
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.50
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

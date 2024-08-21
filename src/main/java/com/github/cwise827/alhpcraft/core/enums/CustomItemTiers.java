@@ -17,7 +17,8 @@ import net.minecraft.world.level.block.Block;
 public enum CustomItemTiers implements Tier {
 
 	COPPER(BlockTags.NEEDS_DIAMOND_TOOL, 2, 150, 6.5f,  2.0f, 17, () -> Ingredient.of((ItemLike[])new ItemLike[]{(ItemLike)Items.COPPER_INGOT})),
-	DERP(BlockTags.NEEDS_DIAMOND_TOOL, 2, 813, 5.0f, 1.5f, 20, () -> Ingredient.of((ItemLike[])new ItemLike[]{(ItemLike)ItemInit.DERP_SHARD.get()}));
+	DERP(BlockTags.NEEDS_DIAMOND_TOOL, 2, 700, 5.0f, 1.5f, 20, () -> Ingredient.of((ItemLike[])new ItemLike[]{(ItemLike)ItemInit.DERP_SHARD.get()})),
+	BALLISTICS_JELLY(BlockTags.NEEDS_STONE_TOOL, 0, 813, 1.0f, 0.5f, 15, () -> Ingredient.of((ItemLike[])new ItemLike[]{(ItemLike)ItemInit.BALLISTICS_JELLY.get()}));
 	
 	private final TagKey<Block> block;
 	private final int level;

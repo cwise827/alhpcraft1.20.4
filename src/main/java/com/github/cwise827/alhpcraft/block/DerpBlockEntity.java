@@ -34,7 +34,6 @@ public class DerpBlockEntity extends BlockEntity implements IItemHandler{
     private int randomArrayInt, randomInt;
     private static final int DELAY_TICKS = 200; // 10 seconds
     private int timer;
-    private static final Logger LOGGER = LogUtils.getLogger();
     
     Item junkBlocks[] = {Items.COBBLESTONE, Items.DIRT, Items.GRANITE, Items.ANDESITE, Items.DIORITE};
     Item nuggetArray[] = {Items.GOLD_NUGGET, Items.IRON_NUGGET, Items.IRON_INGOT, Items.GOLD_INGOT, Items.COPPER_INGOT};
@@ -55,7 +54,6 @@ public class DerpBlockEntity extends BlockEntity implements IItemHandler{
 
     public DerpBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.DERP_BLOCK_ENTITY.get(), pos, state);
-        LOGGER.debug("DerpBlockEntity created at position: {}", pos);
     }
 
     
@@ -207,13 +205,10 @@ public class DerpBlockEntity extends BlockEntity implements IItemHandler{
 
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-		LOGGER.debug("Inserting item: {}", stack.getItem().getName(stack).getString());
 	    if (isItemValid(slot, stack)) {
 	        ItemStack result = itemHandler.insertItem(slot, stack, simulate);
-	        LOGGER.debug("Item inserted, remaining: {}", result.getCount());
 	        return result;
 	    } else {
-	        LOGGER.debug("Item is not valid for insertion");
 	        return stack;
 	    }
 	}

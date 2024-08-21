@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    " X ",
+    " S "
+  ],
+  "key": {
+    "X": {
+      "item": "alhpcraft:ballistics_jelly"
+    },
+	"S": {
+	  "item": "minecraft:stick"
+	}
+  },
+  "result": {
+    "item": "alhpcraft:ballistics_jelly_sword",
+    "count": 1
+  }
+}

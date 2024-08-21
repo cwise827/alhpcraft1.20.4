@@ -60,25 +60,18 @@ public class CorruptedDerpEntity extends Monster {
 	 
 	public CorruptedDerpEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
-        this.setHealth(30F);
     }
 	
 	protected void registerGoals() {
-        this.goalSelector.addGoal(8, (Goal)new LookAtPlayerGoal((Mob)this, Player.class, 8.0f));
-        this.goalSelector.addGoal(8, (Goal)new RandomLookAroundGoal((Mob)this));
-        this.applyEntityAI();
-    }
-	
-	protected void applyEntityAI() {
         this.goalSelector.addGoal(0, (Goal)new FloatGoal((Mob)this));
-        this.goalSelector.addGoal(2, (Goal)new MoveTowardsTargetGoal((PathfinderMob)this, 0.9, 64.0f));
-        this.goalSelector.addGoal(5, (Goal)new MoveTowardsRestrictionGoal((PathfinderMob)this, 1.0));
-        this.goalSelector.addGoal(6, (Goal)new RandomStrollGoal((PathfinderMob)this, 1.0));
-        this.goalSelector.addGoal(7, (Goal)new WaterAvoidingRandomStrollGoal((PathfinderMob)this, 1.0));
-        this.targetSelector.addGoal(1, (Goal)new HurtByTargetGoal((PathfinderMob)this, new Class[0]).setAlertOthers(new Class[]{Zombie.class}));
-        this.targetSelector.addGoal(2, (Goal)new MeleeAttackGoal((PathfinderMob)this, 1.2, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.addGoal(2, (Goal)new MoveTowardsTargetGoal((PathfinderMob)this, 0.9, 64.0f));
+        this.targetSelector.addGoal(3, (Goal)new MeleeAttackGoal((PathfinderMob)this, 1.2, true));
+        this.goalSelector.addGoal(4, (Goal)new RandomStrollGoal((PathfinderMob)this, 1.0));
+        this.goalSelector.addGoal(5, (Goal)new RandomLookAroundGoal((Mob)this));
+		this.goalSelector.addGoal(6, (Goal)new LookAtPlayerGoal((Mob)this, Player.class, 8.0f));
     }
+
 	
 	public SoundEvent getAmbientSound() {
         return ModSounds.CORRUPTED_DERP_AMBIENT.get();

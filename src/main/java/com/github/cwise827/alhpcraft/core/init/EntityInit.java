@@ -1,5 +1,6 @@
 package com.github.cwise827.alhpcraft.core.init;
 
+import com.github.cwise827.alhpcraft.entity.MrpManEntity;
 import com.github.cwise827.alhpcraft.entity.CorruptedDerpEntity;
 import com.github.cwise827.alhpcraft.entity.DerpEntity;
 import com.github.cwise827.alhpcraft.entity.JellyCubeEntity;
@@ -9,8 +10,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -25,4 +24,6 @@ public class EntityInit {
 	public static final DeferredHolder<EntityType<?>, EntityType<JellySlimeEntity>> JELLY_SLIME = ENTITIES.register("jelly_slime", () -> EntityType.Builder.of(JellySlimeEntity::new, MobCategory.MONSTER).sized(2f, 2f).build("jelly_slime"));
 	
 	public static final DeferredHolder<EntityType<?>, EntityType<JellyCubeEntity>> JELLY_CUBE = ENTITIES.register("jelly_cube", () -> EntityType.Builder.of(JellyCubeEntity::new, MobCategory.MONSTER).sized(2f, 2f).build("jelly_cube"));
+	
+	public static final DeferredHolder<EntityType<?>, EntityType<MrpManEntity>> MRP_MAN = ENTITIES.register("mrp_man", () -> EntityType.Builder.of(MrpManEntity::new, MobCategory.MONSTER).sized(.8f, 1.85f).build("mrp_man"));
 }

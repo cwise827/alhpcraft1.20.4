@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "alhpcraft:ballistics_jelly_concentrate"
+    }
+  },
+  "result": {
+    "item": "alhpcraft:compact_ballistics_jelly",
+    "count": 1
+  }
+}

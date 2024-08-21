@@ -1,6 +1,7 @@
 package com.github.cwise827.alhpcraft.core.init;
 
 import com.github.cwise827.alhpcraft.block.DerpBlock;
+import com.github.cwise827.alhpcraft.block.LaunchpadBlock;
 import com.github.cwise827.alhpcraft.block.AlhpCropBlock;
 import com.github.cwise827.alhpcraft.block.BallisticsJellyBlock;
 import com.github.cwise827.alhpcraft.block.CompactBallisticsJellyBlock;
@@ -28,4 +29,6 @@ public class BlockInit {
 	public static final DeferredBlock<Block> BALLISTICS_JELLY_BLOCK = BLOCKS.register("ballistics_jelly_block", () -> new BallisticsJellyBlock(BlockBehaviour.Properties.ofFullCopy((BlockBehaviour)Blocks.SLIME_BLOCK).jumpFactor(2.5f).mapColor(MapColor.COLOR_YELLOW).noOcclusion()));
 	
 	public static final DeferredBlock<Block> COMPACT_BALLISTICS_JELLY_BLOCK = BLOCKS.register("compact_ballistics_jelly_block", () -> new CompactBallisticsJellyBlock(BlockBehaviour.Properties.ofFullCopy((BlockBehaviour)Blocks.SLIME_BLOCK).jumpFactor(4f).mapColor(MapColor.COLOR_YELLOW).noOcclusion()));
+	
+	public static final DeferredBlock<Block> LAUNCHPAD_BLOCK = BLOCKS.register("launchpad", () -> new LaunchpadBlock(BlockBehaviour.Properties.ofFullCopy((BlockBehaviour)Blocks.SLIME_BLOCK).jumpFactor(1f).mapColor(MapColor.COLOR_YELLOW).noOcclusion()));
 }
