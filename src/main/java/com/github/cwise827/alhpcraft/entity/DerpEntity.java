@@ -3,6 +3,7 @@ package com.github.cwise827.alhpcraft.entity;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 
@@ -51,6 +52,7 @@ public class DerpEntity extends Animal {
 	
 	private boolean isHelping;
 	private Player helpedPlayer;
+	private UUID helpedPlayerUUID;
 	private static final EntityDataAccessor<Boolean> HELPING_TEXTURE = SynchedEntityData.defineId(DerpEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final Logger LOGGER = LogUtils.getLogger();
 	
@@ -114,20 +116,38 @@ public class DerpEntity extends Animal {
         if (result && source.getDirectEntity() instanceof Player player) {
             this.knockback(1F, player.getX() - this.getX(), player.getZ() - this.getZ());
         }
-
         return result;
     }
 
 	@Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (!this.level().isClientSide) {
+		ItemStack stack = player.getItemInHand(hand);
+	    float health = this.getHealth();
+	    float maxHealth = this.getMaxHealth();
+	    if (!this.level().isClientSide) {
+	        if (!this.isBaby() && this.isHelping() && stack.getItem() == ItemInit.BALLISTICS_JELLY.get()) {
+	            if (health == maxHealth) {
+	                player.displayClientMessage(Component.literal("Health is at max already. That is " + this.getHealth() + " out of " + this.getMaxHealth()), true);
+	                return InteractionResult.PASS;
+	            } else if (health > maxHealth - 5) {
+	                this.setHealth(maxHealth);
+	                stack.shrink(1);
+	                player.displayClientMessage(Component.literal("Health is at " + this.getHealth() + " out of " + this.getMaxHealth()), true);
+	                return InteractionResult.SUCCESS;
+	            }
+	            this.setHealth(health + 5);
+	            stack.shrink(1);
+	            player.displayClientMessage(Component.literal("Health is at " + this.getHealth() + " out of " + this.getMaxHealth()), true);
+	            return InteractionResult.SUCCESS;
+	        }
 	        if (!this.isBaby()) {
 	            this.isHelping = !this.isHelping;
 	            this.setHelpingTexture(this.isHelping);
 	            if (isHelping) {
-	                this.helpedPlayer = player;
+	                this.setHelpedPlayerUUID(player.getUUID()); // Store UUID instead of Player
 	            }
 	            this.level().broadcastEntityEvent(this, (byte) 10);
+	            return InteractionResult.SUCCESS;
 	        } else {
 	            return InteractionResult.PASS;
 	        }
@@ -145,10 +165,11 @@ public class DerpEntity extends Animal {
     
     public static AttributeSupplier.Builder setCustomAttributes() {
         return Monster.createMobAttributes()
-        		.add(Attributes.MAX_HEALTH, 24.0)
+        		.add(Attributes.MAX_HEALTH, 30.0)
         		.add(Attributes.MOVEMENT_SPEED, 0.3)
         		.add(Attributes.KNOCKBACK_RESISTANCE, 0.8)
         		.add(Attributes.FOLLOW_RANGE, 50.0);
+        
     }
     
     public boolean hasItemsToPickup() {
@@ -185,11 +206,27 @@ public class DerpEntity extends Animal {
     }
     
     public Player getHelpedPlayer() {
-    	return this.helpedPlayer;
+    	if (this.helpedPlayerUUID != null) {
+            Player player = this.level().getPlayerByUUID(this.helpedPlayerUUID);
+            if (player != null) {
+                return player;
+            } else {
+                LOGGER.debug("Helped player with UUID " + this.helpedPlayerUUID + " is not online.");
+            }
+        }
+        return null;
     }
     
     public void setHelpedPlayer(Player player) {
     	this.helpedPlayer = player;
+    }
+    
+    public UUID getHelpedPlayerUUID() {
+        return this.helpedPlayerUUID;
+    }
+
+    public void setHelpedPlayerUUID(UUID uuid) {
+        this.helpedPlayerUUID = uuid;
     }
     
     @Override
@@ -216,11 +253,14 @@ public class DerpEntity extends Animal {
 	
 	@Override
     public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("isHelping", this.isHelping);
-        if (this.getHelpedPlayer() != null) {
-            compound.putUUID("HelpedPlayerUUID", this.getHelpedPlayer().getUUID());
-        }
+		super.addAdditionalSaveData(compound);
+	    compound.putBoolean("isHelping", this.isHelping);
+	    if (this.helpedPlayerUUID != null) {
+	        LOGGER.debug("HELPED PLAYER UUID is " + this.helpedPlayerUUID);
+	        compound.putUUID("HelpedPlayerUUID", this.helpedPlayerUUID);
+	    } else {
+	        LOGGER.debug("HELPED PLAYER UUID was NULL");
+	    }
     }
     
     @Override
@@ -228,15 +268,7 @@ public class DerpEntity extends Animal {
     	super.readAdditionalSaveData(compound);
         this.isHelping = compound.getBoolean("isHelping");
         this.setHelpingTexture(this.isHelping);
-        
-        if (compound.hasUUID("HelpedPlayerUUID")) {
-            Player player = this.level().getPlayerByUUID(compound.getUUID("HelpedPlayerUUID"));
-            this.setHelpedPlayer(player);
-        }
-    }
-    
-    private void clearGoals() {
-        this.goalSelector.getAvailableGoals().forEach(wrappedGoal -> this.goalSelector.removeGoal(wrappedGoal.getGoal()));
+        this.helpedPlayerUUID = compound.hasUUID("HelpedPlayerUUID") ? compound.getUUID("HelpedPlayerUUID") : null;
     }
 }
 

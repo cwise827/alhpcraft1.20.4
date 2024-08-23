@@ -32,13 +32,11 @@ public class HelpPlayerGoal extends Goal{
     @Override
     public void tick() {
     	if (!derpEntity.level().isClientSide && derpEntity.isHelping()) {
-    		LOGGER.debug("Ticking entity: isHelping = " + derpEntity.isHelping());
-    		//LOGGER.debug("Checking if items are to be picked up: " + derpEntity.hasItemsToPickup());
-			List<ItemEntity> items = derpEntity.level().getEntitiesOfClass(ItemEntity.class, derpEntity.getBoundingBox().inflate(12.0));
+    		this.targetItem = null;
+    		List<ItemEntity> items = derpEntity.level().getEntitiesOfClass(ItemEntity.class, derpEntity.getBoundingBox().inflate(12.0));
 		    for (ItemEntity item : items) {
 		        if (item.isAlive() && !item.getItem().isEmpty()) {
 		            this.targetItem = item;
-		            //LOGGER.debug("Assigned target item: " + this.targetItem);
 		        }
 		    }    
 			if (derpEntity.hasItemsToPickup() && this.targetItem != null) {
@@ -56,7 +54,6 @@ public class HelpPlayerGoal extends Goal{
 		                        if (addItemToPlayerInventory(player, itemStack)) {
 		                            // Notify that the item was added to the player's inventory
 		                            this.derpEntity.lookAt(player, 0.0F, 0.0F);
-		                            //LOGGER.debug("Item picked up and added to player's inventory.");
 		                            this.targetItem.discard(); // Remove the item from the world
 		                            this.targetItem = null; // Clear the reference
 		                        }
@@ -80,7 +77,7 @@ public class HelpPlayerGoal extends Goal{
 
     @Override
     public boolean canContinueToUse() {
-        return derpEntity.getHelpedPlayer() != null && super.canContinueToUse();
+    	return derpEntity.getHelpedPlayer() != null && super.canContinueToUse();
     }
 
     @Override
