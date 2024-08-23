@@ -56,7 +56,4 @@ public class SweatyPalmsEffect extends MobEffect{
         	//LOGGER.debug("Random int at start is " + randomInt);
     	}
     }
-    
-    
-
 }

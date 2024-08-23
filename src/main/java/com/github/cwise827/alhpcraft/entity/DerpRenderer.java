@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class DerpRenderer extends MobRenderer<DerpEntity, DerpModel<DerpEntity>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(AlhpCraft.MODID, "textures/entity/derp.png");
+    private static final ResourceLocation HELPING_TEXTURE = new ResourceLocation(AlhpCraft.MODID, "textures/entity/derp_helping.png");
 
     public DerpRenderer(EntityRendererProvider.Context context) {
         super(context, new DerpModel(context.bakeLayer(ClientListener.DERP_LAYER)), 0.5f);
@@ -26,6 +27,6 @@ public class DerpRenderer extends MobRenderer<DerpEntity, DerpModel<DerpEntity>>
     
     @Override
     public ResourceLocation getTextureLocation(DerpEntity entity) {
-        return TEXTURE;
+        return entity.isHelpingTexture() ? HELPING_TEXTURE : TEXTURE;
     }
 }

@@ -38,7 +38,7 @@ public class FireBreathingEffect extends MobEffect{
                 List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, box);
 
                 for (LivingEntity targetEntity : entities) {
-                    if (targetEntity != entity) {
+                    if (targetEntity != entity && targetEntity.getType() != entity.getType()) {
                         // Set the entity on fire for 5 seconds
                         targetEntity.setSecondsOnFire(5);
                     }

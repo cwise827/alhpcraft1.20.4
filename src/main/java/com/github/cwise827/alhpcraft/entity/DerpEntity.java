@@ -1,15 +1,28 @@
 package com.github.cwise827.alhpcraft.entity;
 
 
+import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+
+import com.github.cwise827.alhpcraft.core.goal.AttackHostileGoal;
+import com.github.cwise827.alhpcraft.core.goal.HelpPlayerGoal;
 import com.github.cwise827.alhpcraft.core.init.EntityInit;
 import com.github.cwise827.alhpcraft.core.init.ItemInit;
-import com.github.cwise827.alhpcraft.item.FabricEdge;
 import com.github.cwise827.alhpcraft.sounds.ModSounds;
+import com.mojang.logging.LogUtils;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
@@ -23,20 +36,23 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class DerpEntity extends Animal {
+	
+	private boolean isHelping;
+	private Player helpedPlayer;
+	private static final EntityDataAccessor<Boolean> HELPING_TEXTURE = SynchedEntityData.defineId(DerpEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final Logger LOGGER = LogUtils.getLogger();
 	
 	private static final Set<Item> BREEDING_ITEMS = Set.of(
 		    ItemInit.CHICKEN_SANDWICH.get(),
@@ -49,10 +65,11 @@ public class DerpEntity extends Animal {
     }
 	
 	protected void registerGoals() {
-        this.goalSelector.addGoal(3, (Goal)new LookAtPlayerGoal((Mob)this, Player.class, 8.0f));
-        this.goalSelector.addGoal(4, (Goal)new RandomLookAroundGoal((Mob)this));
-        this.goalSelector.addGoal(1, new BreedGoal(this, 1.0));
-        this.goalSelector.addGoal(2, new TemptGoal(this, 1.25D, Ingredient.of(
+		this.goalSelector.addGoal(1, new AttackHostileGoal(this));
+		this.goalSelector.addGoal(2, new HelpPlayerGoal(this));
+        this.goalSelector.addGoal(3, new FloatGoal(this));
+        this.goalSelector.addGoal(3, new BreedGoal(this, 1.0));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.25D, Ingredient.of(
                 ItemInit.FABRIC_EDGE_WHITE.get(),
                 ItemInit.FABRIC_EDGE_ORANGE.get(),
                 ItemInit.FABRIC_EDGE_MAGENTA.get(),
@@ -73,30 +90,9 @@ public class DerpEntity extends Animal {
                 ItemInit.SPICY_CHICKEN_SANDWICH.get(),
                 ItemInit.WAFFLE_FRIES.get()
             ), false));
-        this.goalSelector.addGoal(0, (Goal)new FloatGoal((Mob)this));
-        this.goalSelector.addGoal(6, (Goal)new RandomStrollGoal((PathfinderMob)this, 1.0));
-        this.goalSelector.addGoal(5, (Goal)new WaterAvoidingRandomStrollGoal((PathfinderMob)this, 1.0));
-	}
-
-	private void pickUpItems() {
-        AABB aabb = this.getBoundingBox().inflate(1.0D);
-        for (ItemEntity itemEntity : this.level().getEntitiesOfClass(ItemEntity.class, aabb)) {
-            if (this.canTakeItem(itemEntity)) {
-                ItemStack itemStack = itemEntity.getItem();
-                this.onItemPickup(itemEntity);
-                itemEntity.discard();
-            }
-        }
-    }
-	
-	private boolean canTakeItem(ItemEntity itemEntity) {
-		ItemStack itemStack = itemEntity.getItem();
-		
-		if(itemStack.getItem() instanceof FabricEdge || itemStack.getItem() == ItemInit.CHICKEN_SANDWICH.get() 
-			|| itemStack.getItem() == ItemInit.SPICY_CHICKEN_SANDWICH.get() || itemStack.getItem() == ItemInit.WAFFLE_FRIES.get()) {
-			return true;
-		}
-		return false;
+		this.goalSelector.addGoal(5, (Goal)new LookAtPlayerGoal((Mob)this, Player.class, 8.0f));
+        this.goalSelector.addGoal(6, (Goal)new RandomLookAroundGoal((Mob)this));
+        this.goalSelector.addGoal(7, (Goal)new WaterAvoidingRandomStrollGoal((PathfinderMob)this, 1.3));
 	}
 	
 	public SoundEvent getAmbientSound() {
@@ -122,6 +118,23 @@ public class DerpEntity extends Animal {
         return result;
     }
 
+	@Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (!this.level().isClientSide) {
+	        if (!this.isBaby()) {
+	            this.isHelping = !this.isHelping;
+	            this.setHelpingTexture(this.isHelping);
+	            if (isHelping) {
+	                this.helpedPlayer = player;
+	            }
+	            this.level().broadcastEntityEvent(this, (byte) 10);
+	        } else {
+	            return InteractionResult.PASS;
+	        }
+	    }
+	    return InteractionResult.SUCCESS;
+    }
+	
 	public ResourceLocation getDefaultLootTable() {
         return new ResourceLocation("alhpcraft", "entities/derp");
     }
@@ -138,11 +151,51 @@ public class DerpEntity extends Animal {
         		.add(Attributes.FOLLOW_RANGE, 50.0);
     }
     
+    public boolean hasItemsToPickup() {
+        List<ItemEntity> items = this.level().getEntitiesOfClass(ItemEntity.class, this.getBoundingBox().inflate(12.0));
+        for (ItemEntity item : items) {
+            LOGGER.debug(item.toString() + " still exists");
+        	if (item.isAlive() && !item.getItem().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(HELPING_TEXTURE, false); // Default to the normal texture
+    }
+    
+    public boolean isHelpingTexture() {
+        return this.entityData.get(HELPING_TEXTURE);
+    }
+
+    public void setHelpingTexture(boolean isSpecialTexture) {
+        this.entityData.set(HELPING_TEXTURE, isSpecialTexture);
+    }
+    
+    public boolean isHelping() {
+        return isHelping;
+    }
+
+    public void setHelping(boolean isHelping) {
+        this.isHelping = isHelping;
+    }
+    
+    public Player getHelpedPlayer() {
+    	return this.helpedPlayer;
+    }
+    
+    public void setHelpedPlayer(Player player) {
+    	this.helpedPlayer = player;
+    }
+    
     @Override
     public boolean isFood(ItemStack stack) {
         return BREEDING_ITEMS.contains(stack.getItem());
     }
-
 
 	@Override
 	public DerpEntity getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
@@ -155,5 +208,35 @@ public class DerpEntity extends Animal {
 	    if (!(otherAnimal instanceof DerpEntity)) return false;
 	    return this.isInLove() && otherAnimal.isInLove();
 	} 
+	
+	public void addItem(ItemStack itemStack) {
+        // Handle the item pickup logic, e.g., adding to inventory, holding, or dropping it.
+        this.spawnAtLocation(itemStack); // As an example, drop it immediately
+    }
+	
+	@Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("isHelping", this.isHelping);
+        if (this.getHelpedPlayer() != null) {
+            compound.putUUID("HelpedPlayerUUID", this.getHelpedPlayer().getUUID());
+        }
+    }
+    
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+    	super.readAdditionalSaveData(compound);
+        this.isHelping = compound.getBoolean("isHelping");
+        this.setHelpingTexture(this.isHelping);
+        
+        if (compound.hasUUID("HelpedPlayerUUID")) {
+            Player player = this.level().getPlayerByUUID(compound.getUUID("HelpedPlayerUUID"));
+            this.setHelpedPlayer(player);
+        }
+    }
+    
+    private void clearGoals() {
+        this.goalSelector.getAvailableGoals().forEach(wrappedGoal -> this.goalSelector.removeGoal(wrappedGoal.getGoal()));
+    }
 }
 
